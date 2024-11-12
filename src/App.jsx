@@ -1,29 +1,46 @@
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Home from './pages/Home'
-import Product from './pages/Product'
-import Category from './pages/Category'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import Details from './pages/Details'
+import Home from "./pages/Home";
+import Products from "./pages/Products";
+import Category from "./pages/Category";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import Detail from "./pages/Detail";
+import Undefined from "./pages/Undefined";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from "./pages/Layout";
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Layout />,
+        children: [
+            {
+                path: "/",
+                element: <Home />,
+            },
+            {
+                path: "/ürünler",
+                element: <Products />,
+            },
+            {
+                path: "/detay/:id",
+                element: <Detail />,
+            },
+
+            {
+                path: "/kategori",
+                element: <Category />,
+                children: [
+                    { path: "hikaye", element: <h1>Hikaye</h1> },
+                    { path: "roman", element: <h1>Roman</h1> },
+                ],
+            },
+            { path: "*", element: <Undefined /> },
+        ],
+    },
+]);
 
 const App = () => {
-  return (
-    <BrowserRouter>
+    return <RouterProvider router={router} />;
+};
 
-      <div className='page'>
-        <Header />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/ürünler' element={<Product />} />
-          <Route path='/detay/:id' element={<Details />} />
-          <Route path='/kategori' element={<Category />} />
-        </Routes>
-        <Footer />
-      </div>
-
-    </BrowserRouter>
-  )
-}
-
-export default App
+export default App;

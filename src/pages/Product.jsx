@@ -2,17 +2,22 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import Filter from "../components/Filter";
+import { useSearchParams } from "react-router-dom";
 
 
 const Products = () => {
 
+    const [searchParamas] = useSearchParams()
     const [books, setBook] = useState([]);
 
     useEffect(() => {
         const params = {
-            q: "",
+            q: searchParamas.get("search"),
+            _sort: "title",
+            _order: searchParamas.get('sort') === "z-a" ?
+                "desc" : "asc",
         }
-        axios.get("http://localhost:3000/books")
+        axios.get("http://localhost:3000/books", { params })
             .then((res) => setBook(res.data));
     }, []);
 

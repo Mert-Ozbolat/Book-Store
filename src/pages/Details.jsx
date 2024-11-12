@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-
+import { useNavigate, useParams } from 'react-router-dom'
 
 
 const Details = () => {
@@ -9,9 +8,12 @@ const Details = () => {
     const [book, setBook] = useState();
     const { id } = useParams();
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         axios.get(`http://localhost:3000/books/${id}`)
             .then((res) => setBook(res.data))
+            .catch((err) => navigate('/undefined', { state: err.status }))
     })
 
     return !book ? (
